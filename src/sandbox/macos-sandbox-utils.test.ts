@@ -117,7 +117,9 @@ describe('macos-sandbox-utils', () => {
         expect(regex.test('src/test/example.spec.ts')).toBe(true)
         expect(regex.test('src/foo/test/example.spec.ts')).toBe(true)
         expect(regex.test('src/foo/bar/test/example.spec.ts')).toBe(true)
-        expect(regex.test('src/foo/bar/test/nested/example.spec.ts')).toBe(false)
+        expect(regex.test('src/foo/bar/test/nested/example.spec.ts')).toBe(
+          false,
+        )
       })
 
       it('should handle mixed glob patterns', () => {
@@ -215,10 +217,26 @@ describe('macos-sandbox-utils', () => {
       it('should match common deny patterns for system files', () => {
         const patterns = [
           { pattern: '/etc/**', path: '/etc/passwd', shouldMatch: true },
-          { pattern: '/etc/**', path: '/etc/ssl/certs/ca.pem', shouldMatch: true },
-          { pattern: '~/.ssh/**', path: '/Users/test/.ssh/id_rsa', shouldMatch: false }, // Would need expansion
-          { pattern: '**/.git/config', path: 'project/.git/config', shouldMatch: true },
-          { pattern: '**/.git/config', path: 'a/b/.git/config', shouldMatch: true },
+          {
+            pattern: '/etc/**',
+            path: '/etc/ssl/certs/ca.pem',
+            shouldMatch: true,
+          },
+          {
+            pattern: '~/.ssh/**',
+            path: '/Users/test/.ssh/id_rsa',
+            shouldMatch: false,
+          }, // Would need expansion
+          {
+            pattern: '**/.git/config',
+            path: 'project/.git/config',
+            shouldMatch: true,
+          },
+          {
+            pattern: '**/.git/config',
+            path: 'a/b/.git/config',
+            shouldMatch: true,
+          },
         ]
 
         for (const { pattern, path, shouldMatch } of patterns) {

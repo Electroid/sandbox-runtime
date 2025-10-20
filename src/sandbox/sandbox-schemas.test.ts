@@ -49,9 +49,9 @@ describe('sandbox-schemas', () => {
         // Note: Malformed IPs may be accepted as hostnames if they match hostname pattern
         // This is current behavior - stricter validation could be added
         const testCases = [
-          '256.1.1.1',       // Out of range - accepted as hostname
-          '192.168.1',       // Incomplete - accepted as hostname
-          '192.168.1.1.1',   // Too many octets - accepted as hostname
+          '256.1.1.1', // Out of range - accepted as hostname
+          '192.168.1', // Incomplete - accepted as hostname
+          '192.168.1.1.1', // Too many octets - accepted as hostname
         ]
 
         for (const input of testCases) {
@@ -68,7 +68,13 @@ describe('sandbox-schemas', () => {
           ['::1', { host: '::1', port: undefined }],
           ['2001:db8::1', { host: '2001:db8::1', port: undefined }],
           ['fe80::1', { host: 'fe80::1', port: undefined }],
-          ['2001:0db8:0000:0000:0000:0000:0000:0001', { host: '2001:0db8:0000:0000:0000:0000:0000:0001', port: undefined }],
+          [
+            '2001:0db8:0000:0000:0000:0000:0000:0001',
+            {
+              host: '2001:0db8:0000:0000:0000:0000:0000:0001',
+              port: undefined,
+            },
+          ],
         ]
 
         for (const [input, expected] of testCases) {
@@ -96,7 +102,10 @@ describe('sandbox-schemas', () => {
         const testCases: Array<[string, NetworkHostPattern]> = [
           ['example.com', { host: 'example.com', port: undefined }],
           ['api.example.com', { host: 'api.example.com', port: undefined }],
-          ['sub.domain.example.com', { host: 'sub.domain.example.com', port: undefined }],
+          [
+            'sub.domain.example.com',
+            { host: 'sub.domain.example.com', port: undefined },
+          ],
           ['localhost', { host: 'localhost', port: undefined }],
         ]
 
@@ -134,10 +143,10 @@ describe('sandbox-schemas', () => {
 
       it('should reject some invalid domain patterns', () => {
         const definitelyInvalid = [
-          'example',          // No TLD - rejected
-          '.example.com',     // Leading dot - rejected
-          'example.com.',     // Trailing dot - rejected
-          '*.com',            // Wildcard with no subdomain - rejected
+          'example', // No TLD - rejected
+          '.example.com', // Leading dot - rejected
+          'example.com.', // Trailing dot - rejected
+          '*.com', // Wildcard with no subdomain - rejected
         ]
 
         for (const input of definitelyInvalid) {
@@ -217,11 +226,19 @@ describe('sandbox-schemas', () => {
   describe('Host List Schema', () => {
     it('should validate lists of allowed hosts', () => {
       const schema = generateHostListSchema('allowed')
-      const result = schema.safeParse(['example.com', 'api.example.com:443', '192.168.1.1:8080'])
+      const result = schema.safeParse([
+        'example.com',
+        'api.example.com:443',
+        '192.168.1.1:8080',
+      ])
 
       expect(result.success).toBe(true)
       if (result.success) {
-        expect(result.data).toEqual(['example.com', 'api.example.com:443', '192.168.1.1:8080'])
+        expect(result.data).toEqual([
+          'example.com',
+          'api.example.com:443',
+          '192.168.1.1:8080',
+        ])
       }
     })
 

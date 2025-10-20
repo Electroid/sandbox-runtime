@@ -9,7 +9,10 @@ import {
   FILE_EDIT_TOOL_NAME,
   FILE_READ_TOOL_NAME,
 } from '../utils/settings.js'
-import { getSettings, permissionRuleValueFromString } from '../utils/settings.js'
+import {
+  getSettings,
+  permissionRuleValueFromString,
+} from '../utils/settings.js'
 import type {
   SandboxAskCallback,
   IgnoreViolationsConfig,
@@ -371,7 +374,7 @@ function isSandboxingEnabled(): boolean {
   if (getPlatform() === 'linux' && !hasLinuxSandboxDependenciesSync()) {
     throw new Error(
       'Required dependencies not found. Please install: bwrap, socat, and ripgrep\n' +
-      '  Install with: apt install bubblewrap socat ripgrep',
+        '  Install with: apt install bubblewrap socat ripgrep',
     )
   }
 
@@ -379,14 +382,13 @@ function isSandboxingEnabled(): boolean {
   if (getPlatform() === 'macos' && !hasMacOSSandboxDependenciesSync()) {
     throw new Error(
       'ripgrep (rg) not found. Please install ripgrep.\n' +
-      '  Install with: brew install ripgrep',
+        '  Install with: brew install ripgrep',
     )
   }
 
   // Sandbox is always enabled (unless platform is not supported or dependencies are missing)
   return true
 }
-
 
 function getFsReadConfig(): FsReadRestrictionConfig {
   // Build read config from Read permission deny rules

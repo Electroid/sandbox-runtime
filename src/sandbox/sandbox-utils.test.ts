@@ -48,11 +48,15 @@ describe('sandbox-utils', () => {
       it('should remove /** from end of path', () => {
         expect(removeTrailingGlobSuffix('/path/to/dir/**')).toBe('/path/to/dir')
         expect(removeTrailingGlobSuffix('/usr/local/**')).toBe('/usr/local')
-        expect(removeTrailingGlobSuffix('relative/path/**')).toBe('relative/path')
+        expect(removeTrailingGlobSuffix('relative/path/**')).toBe(
+          'relative/path',
+        )
       })
 
       it('should not remove /** from middle of path', () => {
-        expect(removeTrailingGlobSuffix('/path/**/middle/file')).toBe('/path/**/middle/file')
+        expect(removeTrailingGlobSuffix('/path/**/middle/file')).toBe(
+          '/path/**/middle/file',
+        )
       })
 
       it('should not modify paths without /**', () => {
@@ -146,7 +150,11 @@ describe('sandbox-utils', () => {
 
       expect(denyPaths.some(p => p.includes('.bashrc'))).toBe(true)
       expect(denyPaths.some(p => p.includes('.gitconfig'))).toBe(true)
-      expect(denyPaths.some(p => p.includes('.claude') && p.includes('settings.json'))).toBe(true)
+      expect(
+        denyPaths.some(
+          p => p.includes('.claude') && p.includes('settings.json'),
+        ),
+      ).toBe(true)
     })
 
     it('should identify .git/hooks and .git/config as dangerous', async () => {
@@ -158,8 +166,16 @@ describe('sandbox-utils', () => {
 
       const denyPaths = await getMandatoryDenyWithinAllow()
 
-      expect(denyPaths.some(p => p.endsWith('.git/hooks') || p.includes('.git/hooks'))).toBe(true)
-      expect(denyPaths.some(p => p.endsWith('.git/config') || p.includes('.git/config'))).toBe(true)
+      expect(
+        denyPaths.some(
+          p => p.endsWith('.git/hooks') || p.includes('.git/hooks'),
+        ),
+      ).toBe(true)
+      expect(
+        denyPaths.some(
+          p => p.endsWith('.git/config') || p.includes('.git/config'),
+        ),
+      ).toBe(true)
     })
   })
 
